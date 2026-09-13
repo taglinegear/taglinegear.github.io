@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tagline Gear — Custom 3D-printed bag tags for athletes</title>
+<meta name="description" content="Custom 3D-printed bag tags for athletes. Your name. Your sport. Your colors.">
+
+<meta property="og:title" content="Tagline Gear">
+<meta property="og:description" content="Custom 3D-printed bag tags for athletes. Your name. Your sport. Your colors.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://taglinegear.com">
+
+<style>
+  :root {
+    --blue: #185FA5;
+    --blue-dark: #042C53;
+    --blue-mid: #378ADD;
+    --blue-pale: #E6F1FB;
+    --white: #FFFFFF;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: var(--blue-pale);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: var(--blue-dark);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  main {
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+  }
+
+  .mark {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: var(--blue-pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin: 0 auto 28px;
+  }
+
+  h1 {
+    font-size: 40px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    margin: 0 0 12px;
+    color: var(--blue-dark);
+  }
+
+  .subhead {
+    font-size: 17px;
+    color: var(--blue);
+    margin: 0 0 6px;
+  }
+
+  .tagline {
+    font-size: 15px;
+    color: var(--blue-mid);
+    margin: 0 0 40px;
+  }
+
+  .signup-label {
+    font-size: 14px;
+    color: var(--blue);
+    margin: 0 0 12px;
+  }
+
+  form {
+    display: flex;
+    gap: 8px;
+    margin: 0 0 8px;
+  }
+
+  input[type="email"] {
+    flex: 1;
+    min-width: 0;
+    height: 44px;
+    padding: 0 14px;
+    font-size: 16px;
+    font-family: inherit;
+    color: var(--blue-dark);
+    background: var(--white);
+    border: 1px solid #B5D4F4;
+    border-radius: 8px;
+  }
+
+  input[type="email"]::placeholder { color: #85B7EB; }
+
+  input[type="email"]:focus {
+    outline: none;
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(24, 95, 165, 0.15);
+  }
+
+  button {
+    height: 44px;
+    padding: 0 20px;
+    font-size: 16px;
+    font-family: inherit;
+    font-weight: 500;
+    color: var(--white);
+    background: var(--blue);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  button:hover { background: var(--blue-dark); }
+
+  .contact {
+    font-size: 13px;
+    color: var(--blue-mid);
+    margin: 36px 0 0;
+  }
+
+  .contact a { color: inherit; }
+
+  .form-status {
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 12px 0 0;
+  }
+
+  .form-status.is-success { color: var(--blue); }
+  .form-status.is-error { color: #A33B2A; }
+
+  @media (max-width: 420px) {
+    h1 { font-size: 32px; }
+    form { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <div class="mark" aria-hidden="true">TG</div>
+
+  <h1>Tagline Gear</h1>
+
+  <p class="subhead">Custom 3D-printed bag tags for athletes</p>
+  <p class="tagline">Your name. Your sport. Your colors.</p>
+
+  <p class="signup-label" id="signup-label">Be first to know when we launch</p>
+
+  <form aria-labelledby="signup-label">
+    <input type="email" name="email" placeholder="name@email.com" aria-label="Email address" required>
+    <button type="submit">Notify me</button>
+  </form>
+
+  <p class="form-status" id="form-status" role="status" aria-live="polite" hidden></p>
+
+  <p class="contact"><a href="mailto:taglinegear@gmail.com">taglinegear@gmail.com</a></p>
+
+</main>
+<script>
+(function () {
+  var COMPANY_ID = 'YsimTX';
+  var LIST_ID = 'RBWBgT';
+  var REVISION = '2026-07-15';
+
+  var form = document.querySelector('form');
+  var input = form.querySelector('input[type="email"]');
+  var button = form.querySelector('button');
+  var status = document.getElementById('form-status');
+
+  function show(message, isError) {
+    status.textContent = message;
+    status.className = 'form-status ' + (isError ? 'is-error' : 'is-success');
+    status.hidden = false;
+  }
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    var email = input.value.trim();
+    if (!email) return;
+
+    button.disabled = true;
+    status.hidden = true;
+
+    fetch('https://a.klaviyo.com/client/subscriptions/?company_id=' + COMPANY_ID, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/vnd.api+json',
+        'revision': REVISION
+      },
+      body: JSON.stringify({
+        data: {
+          type: 'subscription',
+          attributes: {
+            profile: {
+              data: {
+                type: 'profile',
+                attributes: {
+                  email: email,
+                  subscriptions: { email: { marketing: { consent: 'SUBSCRIBED' } } }
+                }
+              }
+            }
+          },
+          relationships: {
+            list: { data: { type: 'list', id: LIST_ID } }
+          }
+        }
+      })
+    }).then(function (response) {
+      button.disabled = false;
+      if (response.status === 202) {
+        input.value = '';
+        show("You're on the list", false);
+      } else {
+        show('Something went wrong. Please try again.', true);
+      }
+    }).catch(function () {
+      button.disabled = false;
+      show('Something went wrong. Please try again.', true);
+    });
+  });
+})();
+</script>
+</body>
+</html>
